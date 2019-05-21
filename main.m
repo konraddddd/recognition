@@ -1,8 +1,8 @@
 close all;
 clear all;
 
-image = imread('test6.jpg');
-
+image = imread('test9.jpg');
+imshow(image)
 %% Zmiana kolorystyki obrazu, i jego zniekszta³cenie
 
 imageHSV = rgb2hsv(image);
@@ -58,15 +58,15 @@ viscircles(centers, rad,'Color','b');
 %% GENETIC ALGORITHM
 %% Initialization
 
-L=30;
+L=40;
 r=0.5;
 
 noise_power=1;
-best=0.2;
+best=0.3;
 generation=zeros(3,L);
 noise = wgn(3,r*L,noise_power);
 % radius_scale=1.2
-
+cross_tres=0.6;
 points_density=0.1;
 s2=size(centers);
 
@@ -95,7 +95,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%5
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-for k=1:20
+for k=1:8
 %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
@@ -112,20 +112,20 @@ for i=1:L
     R=generation(3,i);
     
     points1=round([cos(0:points_density:2*pi)*R+X;sin(0:points_density:2*pi)*R+Y]);
-%      plot(points1(1,:), points1(2,:),'g','LineWidth',3
+%      plot(points1(1,:), points1(2,:),'g','LineWidth',3)
 R1=R;
     R=0.94*R;
     points2=round([cos(0:points_density:2*pi)*R+X;sin(0:points_density:2*pi)*R+Y]);
-%      plot(points2(1,:), points2(2,:),'g','LineWidth',3)
+%       plot(points2(1,:), points2(2,:),'g','LineWidth',3)
     R=0.94*R;
     points3=round([cos(0:points_density:2*pi)*R+X;sin(0:points_density:2*pi)*R+Y]);
-%      plot(points3(1,:), points3(2,:),'g','LineWidth',3)
+%       plot(points3(1,:), points3(2,:),'g','LineWidth',3)
     R=0.94*R;
     points4=round([cos(0:points_density:2*pi)*R+X;sin(0:points_density:2*pi)*R+Y]);
-%      plot(points4(1,:), points4(2,:),'r','LineWidth',3)
+%       plot(points4(1,:), points4(2,:),'r','LineWidth',3)
     R=0.94*R;
     points5=round([cos(0:points_density:2*pi)*R+X;sin(0:points_density:2*pi)*R+Y]);
-%      plot(points5(1,:), points5(2,:),'r','LineWidth',3)
+%       plot(points5(1,:), points5(2,:),'r','LineWidth',3)
     grade=0;
     
     
@@ -178,7 +178,7 @@ R1=R;
         if(points5(1,j)==0)
             points5(1,j)=1;
         end
-        grade=grade-2*imbin(points5(2,j),points5(1,j));
+        grade=grade-20*imbin(points5(2,j),points5(1,j));
         
     end
     
@@ -207,7 +207,7 @@ end
 
 
 %% Crossover
-cross_tres=0.5;
+
 newgeneration=bestofgeneration;
 
 for i=best*L:cross_tres*L
@@ -226,7 +226,7 @@ for i=cross_tres*L:L
     newgeneration(1,i)=newgeneration(3,i)+rand()*(s(2)-2*newgeneration(3,i));
     newgeneration(2,i)=newgeneration(3,i)+rand()*(s(1)-2*newgeneration(3,i));
     
-    viscircles(newgeneration(1:2,i)', newgeneration(3,i),'Color','y')
+    viscircles(newgeneration(1:2,i)', newgeneration(3,i),'Color','g')
     
 end
 
