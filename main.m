@@ -1,7 +1,7 @@
 close all;
 clear all;
 
-image = imread('test10.jpg');
+image = imread('test16.jpg');
 %imshow(image)
 %% Poszczegolne skladowe
 
@@ -126,7 +126,8 @@ title("Morphologically processed 3");
 imbin=imerode(imbin,[0 1 0; 1 1 1; 0 1 0]);
 imbin=imdilate(imbin,[0 1 0; 1 1 1; 0 1 0]);
 subplot(2,3,5);
-%imshow(imbin);
+figure()
+imshow(imbin);
 title("Morphologically processed 4");
 
 
@@ -154,24 +155,26 @@ for o=1:1
 %% GENETIC ALGORITHM
 %% Initialization
 
-L=200;
+L=1000;
 r=0.4;
 
 noise_power=1;
-best=0.4;
+best=0.3;
 generation=zeros(3,L);
 noise = wgn(3,int32(r*L),noise_power);
 % radius_scale=1.2
-cross_tres=best+0.4;
+cross_tres=best+0.3;
 mut_tres=0.6;
 points_density=0.1;
 s2=size(centers);
-%figure()
+% figure()
+% imshow(imbin)
 for j=1:s2(1)
     
     generation(1,floor(r*L/s2(1)*(j-1)+1))=centers(j,1);%!!!!!!!!!!!!!!!!!!!
     generation(2,floor(r*L/s2(1)*(j-1)+1))=centers(j,2);%!!!!!!!!!!!!!!!!!!!!
     generation(3,floor(r*L/s2(1)*(j-1)+1))=min([rad(j),abs(generation(1,1)-s(2)),abs(generation(2,1)-s(1)),generation(1,1),generation(2,1)]);
+%     viscircles(generation(1:2,floor(r*L/s2(1)*(j-1)+1))', generation(3,floor(r*L/s2(1)*(j-1)+1)),'Color','r');
     for i=floor(r*L/s2(1)*(j-1)+1)+1:r*L/s2(1)*j
         
         generation(1,i)=centers(j,1);%!!!!!!!!!!!!!!!!!!!
@@ -180,7 +183,7 @@ for j=1:s2(1)
         
         %     disp([s(1),s(2),generation(1,i),generation(2,i),generation(1,i)-s(2)/2,generation(2,i)-s(1)/2,min([abs(generation(1,i)-s(2)/2),abs(generation(2,i)-s(1)/2)])]);
         
-        %viscircles(generation(1:2,i)', generation(3,i),'Color','r');
+%         viscircles(generation(1:2,i)', generation(3,i),'Color','r');
     end
 end
 
@@ -196,7 +199,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%5
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-for k=1:50
+for k=1:100
     %%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%
@@ -384,8 +387,8 @@ figure(100)
 % subplot(1,3,o);
 imshow(image);
 % title(["Mutation percentage =" num2str(o*0.3)]);
-for i=1:3
-    viscircles(bestofgeneration(1:2,i)', bestofgeneration(3,i),'Color','r');
+for i=1:0.2*L
+    viscircles(generation(1:2,i)', generation(3,i),'Color','r');
     
 end
 end
